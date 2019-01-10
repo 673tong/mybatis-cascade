@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kisen.dao.CollectTaskMapper">
+
+    <resultMap id="collectTaskResultMap" type="com.kisen.entity.CollectTask">
+        <result property="id" column="id"/>
+        <result property="taskName" column="task_name"/>
+        <result property="senderId" column="sender_id"/>
+        <result property="accepterId" column="accepter_id"/>
+        <result property="isDelete" column="is_delete"/>
+
+        <association property="senderInfo" select="getUserById" column="sender_id"/>
+        <association property="accepterInfo" select="getUserById" column="accepter_id"/>
+    </resultMap>
+
+    <resultMap id="userResultMap" type="com.kisen.entity.User">
+        <result property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <association property="depInfo" select="com.finest.collect.dao.UserMapper.getDepById" column="dept_id"/>
+    </resultMap>
+
+    <select id="getUserById" resultMap="userResultMap">
+        SELECT * FROM user WHERE login_id = #{loginId}
+    </select>
+
+    <select id="getAllCollectTask" resultMap="collectTaskResultMap">
+        select
+        *
+        from task ct where 1=1
+        <if test="accepterId !=null and accepterId!=''">
+            and	accepter_id=#{accepterId}
+        </if>
+        <if test="taskStatus !=null and taskStatus!=''">
+            and	task_status=#{taskStatus}
+        </if>
+
+    </select>
+
+
+
+</mapper>
