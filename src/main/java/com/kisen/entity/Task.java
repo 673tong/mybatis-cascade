@@ -8,7 +8,7 @@ import javax.persistence.*;
  * 采集任务bean
  */
 @Table(name="task")
-public class CollectTask {
+public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     //@KeySql(useGeneratedKeys = true) // 使用通用mapper插入数据库后返回主键
